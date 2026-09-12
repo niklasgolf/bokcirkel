@@ -1,6 +1,26 @@
 import { mutation, query } from "./_generated/server";
-
 import { v } from "convex/values";
+
+const allowedAdminEmails = [
+  "niklas.herrloff@gmail.com",
+  "kerstin.herrloff@gmail.com",
+];
+
+async function requireAdmin(ctx: any) {
+  const identity =
+    await ctx.auth.getUserIdentity();
+
+  if (!identity?.email) {
+    throw new Error("Inte inloggad");
+  }
+
+  const email =
+    identity.email.toLowerCase();
+
+  if (!allowedAdminEmails.includes(email)) {
+    throw new Error("Ingen behörighet");
+  }
+}
 
 export const createPage = mutation({
   args: {
@@ -10,6 +30,8 @@ export const createPage = mutation({
   },
 
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     await ctx.db.insert("pages", {
       title: args.title,
       slug: args.slug,
@@ -22,7 +44,9 @@ export const getPages = query({
   args: {},
 
   handler: async (ctx) => {
-    return await ctx.db.query("pages").collect();
+    return await ctx.db
+      .query("pages")
+      .collect();
   },
 });
 
@@ -32,15 +56,27 @@ export const deletePage = mutation({
   },
 
   handler: async (ctx, args) => {
-    const contentBlocks = await ctx.db
-      .query("contentBlocks")
-      .filter((q) => q.eq(q.field("pageId"), args.pageId))
-      .collect();
+    await requireAdmin(ctx);
+
+    const contentBlocks =
+      await ctx.db
+        .query("contentBlocks")
+        .filter((q) =>
+          q.eq(
+            q.field("pageId"),
+            args.pageId
+          )
+        )
+        .collect();
 
     for (const block of contentBlocks) {
-      await ctx.db.delete(block._id);
+      await ctx.db.delete(
+        block._id
+      );
     }
 
-    await ctx.db.delete(args.pageId);
+    await ctx.db.delete(
+      args.pageId
+    );
   },
 });

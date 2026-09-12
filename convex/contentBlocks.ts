@@ -1,6 +1,26 @@
 import { mutation, query } from "./_generated/server";
-
 import { v } from "convex/values";
+
+const allowedAdminEmails = [
+  "niklas.herrloff@gmail.com",
+  "kerstin.herrloff@gmail.com",
+];
+
+async function requireAdmin(ctx: any) {
+  const identity =
+    await ctx.auth.getUserIdentity();
+
+  if (!identity?.email) {
+    throw new Error("Inte inloggad");
+  }
+
+  const email =
+    identity.email.toLowerCase();
+
+  if (!allowedAdminEmails.includes(email)) {
+    throw new Error("Ingen behörighet");
+  }
+}
 
 export const createContentBlock = mutation({
   args: {
@@ -10,11 +30,16 @@ export const createContentBlock = mutation({
   },
 
   handler: async (ctx, args) => {
-    await ctx.db.insert("contentBlocks", {
-      pageId: args.pageId,
-      text: args.text,
-      order: args.order,
-    });
+    await requireAdmin(ctx);
+
+    await ctx.db.insert(
+      "contentBlocks",
+      {
+        pageId: args.pageId,
+        text: args.text,
+        order: args.order,
+      }
+    );
   },
 });
 
@@ -26,17 +51,27 @@ export const getContentBlocks = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("contentBlocks")
-      .filter((q) => q.eq(q.field("pageId"), args.pageId))
+      .filter((q) =>
+        q.eq(
+          q.field("pageId"),
+          args.pageId
+        )
+      )
       .collect();
   },
 });
 
 export const deleteContentBlock = mutation({
   args: {
-    contentBlockId: v.id("contentBlocks"),
+    contentBlockId:
+      v.id("contentBlocks"),
   },
 
   handler: async (ctx, args) => {
-    await ctx.db.delete(args.contentBlockId);
+    await requireAdmin(ctx);
+
+    await ctx.db.delete(
+      args.contentBlockId
+    );
   },
 });
