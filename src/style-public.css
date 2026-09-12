@@ -1,0 +1,368 @@
+.site-shell {
+    min-height: 100vh;
+  
+    display: grid;
+    grid-template-columns: 250px 1fr;
+  
+    background:
+      radial-gradient(
+        circle at 88% 5%,
+        rgba(113, 177, 255, 0.48),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 65% 85%,
+        rgba(147, 181, 255, 0.18),
+        transparent 38%
+      ),
+      linear-gradient(
+        135deg,
+        #d7ebff 0%,
+        #edf6ff 48%,
+        #dce7ff 100%
+      );
+  }
+  
+  
+  /* =========================
+     SIDEBAR
+     ========================= */
+  
+  .sidebar {
+    position: relative;
+  
+    min-height: 100vh;
+  
+    padding: 30px 22px;
+  
+    overflow: hidden;
+  
+    background:
+      radial-gradient(
+        circle at 20% 8%,
+        rgba(78, 157, 255, 0.20),
+        transparent 25%
+      ),
+      linear-gradient(
+        180deg,
+        #0b1930 0%,
+        #102b4d 48%,
+        #17496d 100%
+      );
+  
+    color: white;
+  
+    border-right:
+      1px solid rgba(173, 218, 255, 0.22);
+  
+    box-shadow:
+      10px 0 35px rgba(15, 43, 77, 0.22);
+  }
+  
+  .sidebar::before {
+    content: "";
+  
+    position: absolute;
+  
+    width: 240px;
+    height: 240px;
+  
+    top: -150px;
+    left: -70px;
+  
+    border-radius: 50%;
+  
+    background:
+      rgba(99, 181, 255, 0.22);
+  
+    filter: blur(55px);
+  
+    pointer-events: none;
+  }
+  
+  .site-title {
+    position: relative;
+  
+    margin-bottom: 42px;
+  
+    font-size: 1.55rem;
+    font-weight: 700;
+  
+    letter-spacing: 0.045em;
+  
+    color: #e5f6ff;
+  
+    text-shadow:
+      0 2px 12px rgba(115, 196, 255, 0.30);
+  }
+  
+  
+  /* =========================
+     MENU
+     ========================= */
+  
+  .menu {
+    position: relative;
+  
+    display: flex;
+    flex-direction: column;
+  
+    gap: 13px;
+  }
+  
+  .menu-link {
+    position: relative;
+  
+    width: 100%;
+  
+    padding: 13px 15px;
+  
+    overflow: hidden;
+  
+    text-align: left;
+  
+    color: #dceeff;
+  
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.10),
+        rgba(118, 174, 230, 0.05)
+      );
+  
+    border:
+      1px solid rgba(174, 216, 255, 0.17);
+  
+    border-radius: 13px;
+  
+    box-shadow:
+      0 5px 12px rgba(0, 14, 35, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      color 0.3s ease;
+  }
+  
+  .menu-link::before {
+    content: "";
+  
+    position: absolute;
+  
+    width: 100px;
+    height: 100px;
+  
+    top: -75px;
+    right: -55px;
+  
+    border-radius: 50%;
+  
+    background:
+      rgba(170, 225, 255, 0);
+  
+    filter: blur(18px);
+  
+    pointer-events: none;
+  
+    transition:
+      background 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  
+  .menu-link:hover {
+    color: #ffffff;
+  
+    background:
+      linear-gradient(
+        145deg,
+        rgba(92, 171, 235, 0.24),
+        rgba(80, 142, 205, 0.12)
+      );
+  
+    border-color:
+      rgba(177, 225, 255, 0.42);
+  
+    box-shadow:
+      0 7px 20px rgba(0, 20, 50, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+  
+  .menu-link:hover::before {
+    background:
+      rgba(182, 232, 255, 0.72);
+  
+    box-shadow:
+      0 0 35px rgba(139, 213, 255, 0.70);
+  }
+  
+  .menu-link.active {
+    color: #102e4d;
+  
+    font-weight: 600;
+  
+    background:
+      linear-gradient(
+        135deg,
+        #d9f3ff 0%,
+        #a9dcff 100%
+      );
+  
+    border-color:
+      rgba(225, 247, 255, 0.85);
+  
+    box-shadow:
+      0 8px 20px rgba(0, 22, 50, 0.28),
+      0 0 18px rgba(89, 183, 255, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  
+  .menu-link.active:hover {
+    color: #0b2948;
+  
+    background:
+      linear-gradient(
+        135deg,
+        #e9f9ff 0%,
+        #b8e6ff 100%
+      );
+  
+    border-color: #eafaff;
+  
+    box-shadow:
+      0 9px 24px rgba(0, 25, 60, 0.30),
+      0 0 25px rgba(104, 199, 255, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+  
+  .menu-link.active:hover::before {
+    background:
+      rgba(255, 255, 255, 0.78);
+  
+    box-shadow:
+      0 0 38px rgba(156, 224, 255, 0.85);
+  }
+  
+  
+  /* =========================
+     PAGE AREA
+     ========================= */
+  
+  .page-area {
+    position: relative;
+  
+    padding: 52px;
+  
+    display: flex;
+  
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .page-card {
+    position: relative;
+  
+    width: min(920px, 100%);
+    min-height: 500px;
+  
+    padding: 52px;
+  
+    overflow: hidden;
+  
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.94),
+        rgba(235, 246, 255, 0.90)
+      );
+  
+    border:
+      1px solid rgba(90, 150, 210, 0.20);
+  
+    border-radius: 26px;
+  
+    box-shadow:
+      0 25px 60px rgba(34, 77, 120, 0.16),
+      0 7px 18px rgba(30, 68, 108, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  
+    backdrop-filter: blur(12px);
+  }
+  
+  .page-card::before {
+    content: "";
+  
+    position: absolute;
+  
+    width: 300px;
+    height: 300px;
+  
+    top: -210px;
+    right: -120px;
+  
+    border-radius: 50%;
+  
+    background:
+      rgba(109, 187, 255, 0.17);
+  
+    filter: blur(40px);
+  
+    pointer-events: none;
+  }
+  
+  #page-title {
+    position: relative;
+  
+    margin-top: 0;
+    margin-bottom: 30px;
+  
+    color: #12375e;
+  
+    font-size:
+      clamp(2.3rem, 5vw, 4rem);
+  
+    font-weight: 700;
+  
+    letter-spacing: -0.025em;
+  
+    text-shadow:
+      0 2px 10px rgba(76, 134, 190, 0.08);
+  }
+  
+  #content {
+    position: relative;
+  
+    font-size: 1.1rem;
+    line-height: 1.8;
+  
+    color: #36516f;
+  }
+  
+  #content p {
+    margin-top: 0;
+    margin-bottom: 1.4rem;
+  }
+  
+  
+  /* =========================
+     RESPONSIVE
+     ========================= */
+  
+  @media (max-width: 760px) {
+    .site-shell {
+      grid-template-columns: 1fr;
+    }
+  
+    .sidebar {
+      min-height: auto;
+    }
+  
+    .page-area {
+      padding: 24px;
+    }
+  
+    .page-card {
+      padding: 30px;
+    }
+  }
