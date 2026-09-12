@@ -2,6 +2,9 @@ import "./style-admin.css";
 
 import {
   initializeAdminAuth,
+  isSignedIn,
+  isAllowedAdmin,
+  showSignIn,
 } from "./adminAuth";
 
 import {
@@ -17,14 +20,70 @@ export async function showAdminSite() {
   await initializeAdminAuth();
 
 
-  document.querySelector<HTMLDivElement>(
-    "#app"
-  )!.innerHTML = `
+  const app =
+    document.querySelector<HTMLDivElement>(
+      "#app"
+    )!;
+
+
+  if (!isSignedIn()) {
+    app.innerHTML = `
+      <div id="clerk-sign-in"></div>
+    `;
+
+
+    const signInContainer =
+      document.querySelector<HTMLDivElement>(
+        "#clerk-sign-in"
+      )!;
+
+
+    showSignIn(
+      signInContainer
+    );
+
+    return;
+  }
+
+
+  if (!isAllowedAdmin()) {
+    app.innerHTML = `
+      <div class="admin-shell">
+
+        <section class="admin-panel">
+
+          <h1>
+            Ingen behörighet
+          </h1>
+
+          <p>
+            Det här kontot har inte
+            tillgång till adminsidan.
+          </p>
+
+          <a
+            class="admin-public-link"
+            href="/"
+          >
+            Tillbaka till vanliga sidan
+          </a>
+
+        </section>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  app.innerHTML = `
     <div class="admin-shell">
 
       <header class="admin-header">
 
         <div>
+
           <div class="admin-small-title">
             Bokcirkeln
           </div>
@@ -32,6 +91,7 @@ export async function showAdminSite() {
           <h1>
             Admin
           </h1>
+
         </div>
 
         <a
