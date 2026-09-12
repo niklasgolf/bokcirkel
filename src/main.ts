@@ -72,6 +72,50 @@ convex.onUpdate(
         button.classList.add("active");
       }
 
+      button.addEventListener("click", () => {
+
+        pageTitle.textContent =
+          page.title;
+
+        document
+          .querySelectorAll(".menu-link")
+          .forEach((menuButton) => {
+            menuButton.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+        convex.onUpdate(
+          api.contentBlocks.getContentBlocks,
+          {
+            pageId: page._id
+          },
+          (blocks) => {
+
+            const sortedBlocks =
+              [...blocks].sort(
+                (a, b) => a.order - b.order
+              );
+
+            content.innerHTML = "";
+
+            sortedBlocks.forEach((block) => {
+
+              const paragraph =
+                document.createElement("p");
+
+              paragraph.textContent =
+                block.text;
+
+              content.appendChild(paragraph);
+
+            });
+
+          }
+        );
+
+      });
+
       menu.appendChild(button);
 
     });
