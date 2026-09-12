@@ -1,4 +1,5 @@
 import { Clerk } from "@clerk/clerk-js";
+import { convex } from "./convexClient";
 
 declare global {
   interface Window {
@@ -6,10 +7,8 @@ declare global {
   }
 }
 
-
 const publishableKey =
   import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
 
 if (!publishableKey) {
   throw new Error(
@@ -17,25 +16,20 @@ if (!publishableKey) {
   );
 }
 
-
 const clerkDomain =
   atob(
     publishableKey.split("_")[2]
   ).slice(0, -1);
 
-
 export const clerk =
   new Clerk(publishableKey);
 
-
 let clerkLoaded = false;
-
 
 export async function loadClerk() {
   if (clerkLoaded) {
     return;
   }
-
 
   await new Promise<void>(
     (resolve, reject) => {
@@ -44,18 +38,15 @@ export async function loadClerk() {
           'script[data-clerk-ui="true"]'
         );
 
-
       if (existingScript) {
         resolve();
         return;
       }
 
-
       const script =
         document.createElement(
           "script"
         );
-
 
       script.src =
         `https://${clerkDomain}/npm/@clerk/ui@1/dist/ui.browser.js`;
@@ -68,11 +59,9 @@ export async function loadClerk() {
       script.dataset.clerkUi =
         "true";
 
-
       script.onload = () => {
         resolve();
       };
-
 
       script.onerror = () => {
         reject(
@@ -82,13 +71,11 @@ export async function loadClerk() {
         );
       };
 
-
       document.head.appendChild(
         script
       );
     }
   );
-
 
   await clerk.load({
     ui: {
@@ -97,6 +84,9 @@ export async function loadClerk() {
     },
   });
 
+  convex.setAuth(async () => {
+    return await clerk.session?.getToken() ?? null;
+  });
 
   clerkLoaded = true;
 }

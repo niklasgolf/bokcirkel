@@ -1,5 +1,8 @@
 import "./style-admin.css";
 
+import { convex } from "./convexClient";
+import { api } from "../convex/_generated/api";
+
 import {
   initializeAdminAuth,
   isSignedIn,
@@ -18,6 +21,19 @@ import {
 
 export async function showAdminSite() {
   await initializeAdminAuth();
+
+
+  const identity =
+    await convex.query(
+      api.authTest.whoAmI,
+      {}
+    );
+
+
+  console.log(
+    "Convex identity:",
+    identity
+  );
 
 
   const app =
